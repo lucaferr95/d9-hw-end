@@ -1,30 +1,26 @@
 const initialState = {
-  favourite: {
-    list: [],
-  },
-}
+  list: [],
+};
 
-const mainReducer = (state = initialState, action) => {
+const favReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TO_FAVOURITE':
+    case "ADD_TO_FAVOURITE":
+      if (state.list.includes(action.payload)) {
+        return state; // se è già nei preferiti, non fare nulla
+      }
       return {
         ...state,
-        favourite: {
-          ...state.favourite,
-          list: [...state.favourite.list, action.payload],
-        },
-      }
-    case 'REMOVE_FROM_FAVOURITE':
+        list: [...state.list, action.payload],
+      };
+    case "REMOVE_FROM_FAVOURITE":
       return {
         ...state,
-        favourite: {
-          ...state.favourite,
-          list: state.favourite.list.filter((fav) => fav !== action.payload),
-        },
-      }
-    default:
-      return state
-  }
-}
 
-export default mainReducer
+        list: state.list.filter((fav) => fav !== action.payload),
+      };
+    default:
+      return state;
+  }
+};
+
+export default favReducer;
